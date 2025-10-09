@@ -281,12 +281,6 @@ body.no-scroll {
     }
 }
 
-/*@media (prefers-reduced-motion: reduce) {
-    .scroll-icon::before {
-        animation: linear;
-    }
-}*/
-
 .about-section {
     max-width: 800px;
     margin: 60px auto;
@@ -367,19 +361,19 @@ body.no-scroll {
     min-height: 48px;
 }
 .btn-email {
-    background: #222;
+    background: var(--btn-muted);
+    border: 1px solid var(--btn-muted-border);
     color: var(--fg);
-    border: 1px solid #444;
 }
 .btn-email:hover {
-    background: #333;
+    background: var(--btn-muted-hover);
 }
 .btn-telegram {
-    background: #14a800;
+    background: var(--btn-accent);
     color: var(--fg);
 }
 .btn-telegram:hover {
-    background: #0d8000;
+    background: var(--btn-accent-hover);
 }
 
 .portfolio-hero {
@@ -428,7 +422,7 @@ body.no-scroll {
     flex-wrap: wrap;
 }
 .project-tag {
-    background: #222;
+    background: var(--chip);
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -462,7 +456,22 @@ body.no-scroll {
 }
 
 :root[data-theme="light"] .view-project:hover {
-    color: #111;
+    background: var(--accent);
+}
+
+.link-accent {
+    color: var(--accent);
+    font-size: 20px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.link-accent:hover {
+    opacity: 0.9;
+}
+
+.contact-block {
+    margin: 60px 0;
 }
 
 .footer {

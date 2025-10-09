@@ -11,6 +11,7 @@ document.addEventListener("keydown", (e) => {
     closeMenu();
   }
 });
+
 document.getElementById("fullMenu")?.addEventListener("click", (e) => {
   if (e.target.id === "fullMenu") {
     closeMenu();
@@ -36,9 +37,16 @@ function applyTheme(theme) {
   }
 }
 
-function getPreferredTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (saved === "light" || saved === "dark") return saved;
+function getCurrentTheme() {
+  return document.documentElement.getAttribute("data-theme") || "dark";
+}
+
+function getStoredTheme() {
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+  } catch (e) {}
+
   const prefersLight =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: light)").matches;
@@ -46,24 +54,38 @@ function getPreferredTheme() {
 }
 
 function initTheme() {
-  applyTheme(getPreferredTheme());
+  const storedTheme = getStoredTheme();
+  applyTheme(storedTheme);
+
   window
     .matchMedia("(prefers-color-scheme: light)")
     .addEventListener("change", (e) => {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (!saved) {
-        applyTheme(e.matches ? "light" : "dark");
-      }
+      try {
+        const saved = localStorage.getItem(THEME_KEY);
+        if (!saved) {
+          applyTheme(e.matches ? "light" : "dark");
+        }
+      } catch (err) {}
     });
+
+  window.addEventListener("storage", (e) => {
+    if (
+      e.key === THEME_KEY &&
+      (e.newValue === "light" || e.newValue === "dark")
+    ) {
+      applyTheme(e.newValue);
+    }
+  });
 
   const btn = document.getElementById("themeToggle");
   if (btn) {
     btn.addEventListener("click", () => {
-      const current =
-        document.documentElement.getAttribute("data-theme") || "dark";
+      const current = getCurrentTheme();
       const next = current === "light" ? "dark" : "light";
       applyTheme(next);
-      localStorage.setItem(THEME_KEY, next);
+      try {
+        localStorage.setItem(THEME_KEY, next);
+      } catch (e) {}
     });
   }
 }

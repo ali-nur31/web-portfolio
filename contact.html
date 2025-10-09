@@ -4,11 +4,45 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Ali-Nur - Portfolio</title>
+        <script>
+            (function () {
+                try {
+                    var KEY = "alinur-theme";
+                    var saved = localStorage.getItem(KEY);
+                    if (saved === "light" || saved === "dark") {
+                        document.documentElement.setAttribute(
+                            "data-theme",
+                            saved,
+                        );
+                    } else if (
+                        window.matchMedia &&
+                        window.matchMedia("(prefers-color-scheme: light)")
+                            .matches
+                    ) {
+                        document.documentElement.setAttribute(
+                            "data-theme",
+                            "light",
+                        );
+                    }
+                } catch (e) {}
+            })();
+        </script>
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div class="header">
             <div class="logo">Ali-Nur<span class="logo-dot">.</span></div>
+            <button
+                id="themeToggle"
+                class="theme-toggle"
+                aria-label="Toggle color theme"
+                aria-pressed="false"
+                title="Сменить тему"
+            >
+                <span class="theme-icon" data-dark="🌙" data-light="☀️"
+                    >🌙</span
+                >
+            </button>
             <div class="menu-icon" onclick="openMenu()">
                 <div class="menu-line"></div>
                 <div class="menu-line"></div>
